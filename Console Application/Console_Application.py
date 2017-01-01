@@ -31,7 +31,11 @@ def show_all_employees():
     rows = cursor.execute("{call dbo.GetAllEmployees}").fetchall()
     for row in rows:
         vacs = show_employee_vacations(int(row[0]))
-        print("ID: " + str(row[0]) + "\n" + "Имя: " + str(row[1]) + "\n" + "Фамилия: " + str(row[2]) + "\n" + "Отчество: " + str(row[3]) + "\n" + "Количество отпусков: " + str(row[4]) + "\n" + vacs + "\n"
+        print("ID: " + str(row[0]) + "\n" + 
+              "Имя: " + str(row[1]) + "\n" + 
+              "Фамилия: " + str(row[2]) + "\n" + 
+              "Отчество: " + str(row[3]) + "\n" + 
+              "Количество отпусков: " + str(row[4]) + "\n" + vacs + "\n"
               "Должность: " + str(row[5]) + "\n" + "Отдел: " + str(row[6]) + "\n") 
         print("-------------------------")
         #row = cursor.fetchone()
