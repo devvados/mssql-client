@@ -1,0 +1,72 @@
+﻿@model Web_Application.Models.Vacations
+
+@{
+    ViewBag.Title = "Подробности об отпуске";
+}
+
+<h2>Подробная информация об отпуске</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.LabelFor(model => model.Emps.Name, "Имя")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Emps.Name)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.Emps.Surname, "Фамилия")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Emps.Surname)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.Emps.Patronymic, "Отчество")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Emps.Patronymic)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.Emps.Deps.DepartamentName, "Отдел")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Emps.Deps.DepartamentName)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.Emps.Positions.PositionName, "Должность")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Emps.Positions.PositionName)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.BeginDate, "Начало")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BeginDate)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.EndDate, "Конец")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Редактировать", "Edit", new { id = Model.VacationID }) |
+    @Html.ActionLink("Вернуться к списку", "Index")
+</p>

@@ -1,0 +1,60 @@
+﻿@model Web_Application.Models.Vacations
+
+@{
+    ViewBag.Title = "Удаление отпуска";
+}
+
+<h3>Информация об удаляемой записи</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.LabelFor(model => model.Emps.Name, "Имя")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Emps.Name)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.Emps.Surname, "Фамилия")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Emps.Surname)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.Emps.Patronymic, "Отчество")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Emps.Patronymic)
+        </dd>
+        <dt>
+            @Html.LabelFor(model => model.BeginDate, "Начало")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BeginDate)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.EndDate, "Конец")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Вернуться к списку", "Index")
+        </div>
+    }
+</div>

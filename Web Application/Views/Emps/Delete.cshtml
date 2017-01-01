@@ -1,0 +1,98 @@
+﻿@model Web_Application.Models.Emps
+
+@{
+    ViewBag.Title = "Удаление сотрудника";
+}
+
+<h2>Информация об удаляемой записи</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.LabelFor(model => model.Name, "Имя")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.Surname, "Фамилия")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.Patronymic, "Отчество")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Patronymic)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.VacationsCount, "Отпусков")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VacationsCount)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.Deps.DepartamentName, "Отдел")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Deps.DepartamentName)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.Positions.PositionName, "Должность")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Positions.PositionName)
+        </dd>
+
+    </dl>
+    
+    @if (Model.Vacations.Count > 0)
+    {
+        <table class="table">
+            <tr>
+                <th>
+                    Начало отпуска
+                </th>
+                <th>
+                    Конец отпуска
+                </th>
+            </tr>
+
+            @foreach (var item in Model.Vacations)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BeginDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    <p>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Удалить" class="btn btn-default" /> |
+                @Html.ActionLink("Вернуться к списку", "Index")
+            </div>
+        }
+    </p>
+</div>

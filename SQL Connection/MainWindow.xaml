@@ -1,0 +1,173 @@
+﻿<mahapps:MetroWindow x:Class="SQL_Connection.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SQL_Connection"
+        xmlns:mahapps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        GlowBrush="{DynamicResource AccentColorBrush}"
+        Title="Данные об отпусках" TitleAlignment="Center" Height="500" Width="900"
+        WindowState="Maximized" Loaded="MetroWindow_Loaded"
+        Icon="Icon/database.png">
+    <Window.Resources>
+        <RoutedUICommand x:Key="CommandFirstTab" Text="Управления" />
+        <RoutedUICommand x:Key="CommandSecondTab" Text="Отделы"/>
+        <RoutedUICommand x:Key="CommandThirdTab" Text="Сотрудники"/>
+        <RoutedUICommand x:Key="CommandFourthTab" Text="Отпуски"/>
+        <RoutedUICommand x:Key="CommandHelp" Text="Помощь"/>
+    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="F1" Command="{StaticResource CommandFirstTab}"/>
+        <KeyBinding Key="F2" Command="{StaticResource CommandSecondTab}"/>
+        <KeyBinding Key="F3" Command="{StaticResource CommandThirdTab}"/>
+        <KeyBinding Key="F4" Command="{StaticResource CommandFourthTab}"/>
+        <KeyBinding Key="H" Modifiers="Ctrl" Command="{StaticResource CommandHelp}"/>
+    </Window.InputBindings>
+    <Window.CommandBindings>
+        <CommandBinding Command="{StaticResource CommandFirstTab}" Executed="GoToFirstTab"/>
+        <CommandBinding Command="{StaticResource CommandSecondTab}" Executed="GoToSecondTab"/>
+        <CommandBinding Command="{StaticResource CommandThirdTab}" Executed="GoToThirdTab"/>
+        <CommandBinding Command="{StaticResource CommandFourthTab}" Executed="GoToFourthTab"/>
+        <CommandBinding Command="{StaticResource CommandHelp}" Executed="ShowHelp"/>
+    </Window.CommandBindings>
+    <mahapps:MetroWindow.LeftWindowCommands>
+        <mahapps:WindowCommands>
+            <Button x:Name="BConnect" Content="Авторизация" Click="BConnect_Click"/>
+        </mahapps:WindowCommands>
+    </mahapps:MetroWindow.LeftWindowCommands>
+    <mahapps:MetroWindow.RightWindowCommands>
+        <mahapps:WindowCommands>
+            <Button x:Name="BHelp" Content="Помощь" Command="{StaticResource CommandHelp}"/>
+            <Button x:Name="BAbout" Content="О программе" Click="MIAbout_Click"/>
+        </mahapps:WindowCommands>
+    </mahapps:MetroWindow.RightWindowCommands>
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0"/>
+            <RowDefinition Height="130"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="GridComboBoxes" Margin="10" VerticalAlignment="Stretch" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <GroupBox Grid.Column="0" Header="Действия" Margin="3">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Button x:Name="BAddEmployee" Content="Добавить сотрудника" Grid.Row="0" Margin="2" IsEnabled="False" Click="AddClick"/>
+                    <Button x:Name="BUpdateLayout" Content="Обновить данные" Grid.Row="1" Margin="2" Click="BUpdateLayout_Click"/>
+                </Grid>
+            </GroupBox>
+            <GroupBox Grid.Column="1" Header="Отображение" Margin="3">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0" VerticalAlignment="Stretch" Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <Label x:Name="LabPositions" Content="Должности"  Margin="0,0,20,0" Grid.Row="0"/>
+                        <ComboBox x:Name="CBPositions" SelectedIndex="0" 
+                          Grid.Row="1" Margin="0,0,20,0" 
+                          VerticalContentAlignment="Center"
+                          Loaded="CBPositions_Loaded"/>
+                    </Grid>
+                    <Grid Grid.Column="1" VerticalAlignment="Stretch" Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <Label Content="Показать всех сотрудников" Grid.Row="0"/>
+                        <Button x:Name="BShowAll" Content="Показать" Grid.Row="1"
+                                Click="BShowAll_Click"/>
+                    </Grid>
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="Резервное копирование и восстановление" Grid.Column="2" Margin="3">
+                <Grid>
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="BBackup" Grid.Column="0" Margin="5" Content="Резервное копирование" Click="BBackup_Click"/>
+                        <Button x:Name="BRestore" Grid.Column="1" Margin="5" Content="Восстановление" Click="BRestore_Click"/>
+                    </Grid>
+                </Grid>
+            </GroupBox>
+        </Grid>
+        <TabControl x:Name="TCTables" Grid.Row="2" Margin="10" SelectionChanged="TCTables_SelectionChanged">
+            <TabItem x:Name="TIOffices" Header="Управления">
+                <DataGrid x:Name="DGOffices" IsReadOnly="True"
+                          AutoGenerateColumns="False" 
+                          Visibility="Hidden" 
+                          Margin="20" ColumnWidth="*" 
+                          MouseDoubleClick="DGOffices_MouseDoubleClick">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Название" Binding="{Binding Path=OfficeName}"/>
+                        <DataGridTextColumn Header="Отделов" Binding="{Binding Path=DepartamentsCount}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem x:Name="TIDepartaments" Header="Отделы">
+                <DataGrid x:Name="DGDepartaments" IsReadOnly="True"
+                          AutoGenerateColumns="False" 
+                          Visibility="Hidden" 
+                          Margin="20" ColumnWidth="*" 
+                          MouseDoubleClick="DGDepartaments_MouseDoubleClick">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Название" Binding="{Binding Path=DepartamentName}"/>
+                        <DataGridTextColumn Header="Сотрудников" Binding="{Binding Path=EmployeesCount}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem x:Name="TIEmployees" Header="Сотрудники">
+                <DataGrid x:Name="DGEmployees" IsReadOnly="True"
+                          AutoGenerateColumns="False" 
+                          Visibility="Hidden" 
+                          Margin="20" ColumnWidth="*" 
+                          PreviewMouseRightButtonDown="DG_PreviewMouseRightButtonDown"
+                          MouseDoubleClick="DGEmployees_MouseDoubleClick">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Имя" Binding="{Binding Path=Name}"/>
+                        <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=Surname}"/>
+                        <DataGridTextColumn Header="Отчество" Binding="{Binding Path=Patronymic}"/>
+                        <DataGridTextColumn Header="Должность" Binding="{Binding Path=Positions.PositionName}"/>
+                        <DataGridTextColumn Header="Отпусков" Width="90" Binding="{Binding Path=VacationsCount}"/>
+                        <DataGridTextColumn Header="Отдел" Binding="{Binding Path=Deps.DepartamentName}"/>
+                        <DataGridTextColumn Header="Управление" Binding="{Binding Path=Deps.Offices.OfficeName}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem x:Name="TIVacations" Header="Отпуски">
+                <DataGrid x:Name="DGVacations" IsReadOnly="True"
+                          AutoGenerateColumns="False" 
+                          Visibility="Hidden" 
+                          Margin="20" ColumnWidth="*" 
+                          PreviewMouseRightButtonDown="DG_PreviewMouseRightButtonDown">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=Emps.Surname}"/>
+                        <DataGridTextColumn Header="Имя" Binding="{Binding Path=Emps.Name}"/>
+                        <DataGridTextColumn Header="Отчество" Binding="{Binding Path=Emps.Patronymic}"/>
+                        <DataGridTextColumn Header="Начало" Binding="{Binding Path=BeginDate}"/>
+                        <DataGridTextColumn Header="Конец" Binding="{Binding Path=EndDate}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
+        <StatusBar Grid.Row="3">
+            <StatusBarItem>
+                <Label x:Name="LabUserType" Content="Вы вошли как: "/>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</mahapps:MetroWindow>

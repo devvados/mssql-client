@@ -1,0 +1,101 @@
+﻿@model Web_Application.Models.Emps
+
+@{
+    ViewBag.Title = "Подробности о сотруднике";
+}
+
+<h2>Подробная информация о сотруднике</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.LabelFor(model => model.Name, "Имя")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.Surname, "Фамилия")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.Patronymic, "Отчество")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Patronymic)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.VacationsCount, "Отпусков")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VacationsCount)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.Deps.DepartamentName, "Отдел")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Deps.DepartamentName)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.Positions.PositionName, "Должность")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Positions.PositionName)
+        </dd>
+
+    </dl>
+    @if (Model.Vacations.Count > 0)
+    {
+        <dl class="dl-horizontal">
+            <div>
+                <table class="table">
+                    <tr>
+                        <th>
+                            Начало отпуска
+                        </th>
+                        <th>
+                            Конец отпуска
+                        </th>
+                        <th>
+                            Действия
+                        </th>
+                    </tr>
+
+                    @foreach (var item in Model.Vacations)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BeginDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EndDate)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Подробнее", "VacationDetails", new { id = item.VacationID }) |
+                                @Html.ActionLink("Редактировать", "VacationEdit", new { id = item.VacationID }) |
+                                @Html.ActionLink("Удалить", "VacationDelete", new { id = item.VacationID })
+                        </tr>
+                    }
+                </table>
+            </div>
+        </dl>
+    }
+</div>
+<p>
+    @Html.ActionLink("Редактировать", "Edit", new { id = Model.EmployeeID }) |
+    @Html.ActionLink("Вернуться к списку", "Index")
+</p>

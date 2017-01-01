@@ -1,0 +1,539 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="StaffDataBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Deps">
+          <Key>
+            <PropertyRef Name="DepartamentID" />
+          </Key>
+          <Property Name="DepartamentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DepartamentName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="EmployeesCount" Type="int" Nullable="false" />
+          <Property Name="OfID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Emps">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Patronymic" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PosID" Type="int" Nullable="false" />
+          <Property Name="VacationsCount" Type="int" Nullable="false" />
+          <Property Name="DepID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Offices">
+          <Key>
+            <PropertyRef Name="OfficeID" />
+          </Key>
+          <Property Name="OfficeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OfficeName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DepartamentsCount" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Positions">
+          <Key>
+            <PropertyRef Name="PositionID" />
+          </Key>
+          <Property Name="PositionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PositionName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Salary" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Vacations">
+          <Key>
+            <PropertyRef Name="VacationID" />
+          </Key>
+          <Property Name="VacationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BeginDate" Type="datetime" Nullable="false" />
+          <Property Name="EndDate" Type="datetime" Nullable="false" />
+          <Property Name="EmpID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Deps_OfID">
+          <End Role="Offices" Type="Self.Offices" Multiplicity="1" />
+          <End Role="Deps" Type="Self.Deps" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Offices">
+              <PropertyRef Name="OfficeID" />
+            </Principal>
+            <Dependent Role="Deps">
+              <PropertyRef Name="OfID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employees_DepID">
+          <End Role="Deps" Type="Self.Deps" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Emps" Type="Self.Emps" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Deps">
+              <PropertyRef Name="DepartamentID" />
+            </Principal>
+            <Dependent Role="Emps">
+              <PropertyRef Name="DepID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employees_PosID">
+          <End Role="Positions" Type="Self.Positions" Multiplicity="1" />
+          <End Role="Emps" Type="Self.Emps" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Positions">
+              <PropertyRef Name="PositionID" />
+            </Principal>
+            <Dependent Role="Emps">
+              <PropertyRef Name="PosID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vacations_EmpID">
+          <End Role="Emps" Type="Self.Emps" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Vacations" Type="Self.Vacations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Emps">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Vacations">
+              <PropertyRef Name="EmpID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="DeleteEmployee" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteVacation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="InsertEmployee" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="Surname" Type="nvarchar" Mode="In" />
+          <Parameter Name="Patronymic" Type="nvarchar" Mode="In" />
+          <Parameter Name="Position" Type="int" Mode="In" />
+          <Parameter Name="DepID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="InsertVacation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="begin" Type="nvarchar" Mode="In" />
+          <Parameter Name="end" Type="nvarchar" Mode="In" />
+          <Parameter Name="empID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="UpdateEmployee" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="Surname" Type="nvarchar" Mode="In" />
+          <Parameter Name="Patronymic" Type="nvarchar" Mode="In" />
+          <Parameter Name="PosID" Type="int" Mode="In" />
+          <Parameter Name="DepID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UpdateVacation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="beginDate" Type="nvarchar" Mode="In" />
+          <Parameter Name="endDate" Type="nvarchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="StaffDataBaseModelStoreContainer">
+          <EntitySet Name="Deps" EntityType="Self.Deps" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Emps" EntityType="Self.Emps" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Offices" EntityType="Self.Offices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Positions" EntityType="Self.Positions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vacations" EntityType="Self.Vacations" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Deps_OfID" Association="Self.FK_Deps_OfID">
+            <End Role="Offices" EntitySet="Offices" />
+            <End Role="Deps" EntitySet="Deps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employees_DepID" Association="Self.FK_Employees_DepID">
+            <End Role="Deps" EntitySet="Deps" />
+            <End Role="Emps" EntitySet="Emps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employees_PosID" Association="Self.FK_Employees_PosID">
+            <End Role="Positions" EntitySet="Positions" />
+            <End Role="Emps" EntitySet="Emps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vacations_EmpID" Association="Self.FK_Vacations_EmpID">
+            <End Role="Emps" EntitySet="Emps" />
+            <End Role="Vacations" EntitySet="Vacations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StaffDataBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Deps">
+          <Key>
+            <PropertyRef Name="DepartamentID" />
+          </Key>
+          <Property Name="DepartamentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepartamentName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EmployeesCount" Type="Int32" Nullable="false" />
+          <Property Name="OfID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Offices" Relationship="Self.FK_Deps_OfID" FromRole="Deps" ToRole="Offices" />
+          <NavigationProperty Name="Emps" Relationship="Self.FK_Employees_DepID" FromRole="Deps" ToRole="Emps" />
+        </EntityType>
+        <EntityType Name="Emps">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PosID" Type="Int32" Nullable="false" />
+          <Property Name="VacationsCount" Type="Int32" Nullable="false" />
+          <Property Name="DepID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Deps" Relationship="Self.FK_Employees_DepID" FromRole="Emps" ToRole="Deps" />
+          <NavigationProperty Name="Positions" Relationship="Self.FK_Employees_PosID" FromRole="Emps" ToRole="Positions" />
+          <NavigationProperty Name="Vacations" Relationship="Self.FK_Vacations_EmpID" FromRole="Emps" ToRole="Vacations" />
+        </EntityType>
+        <EntityType Name="Offices">
+          <Key>
+            <PropertyRef Name="OfficeID" />
+          </Key>
+          <Property Name="OfficeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OfficeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DepartamentsCount" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Deps" Relationship="Self.FK_Deps_OfID" FromRole="Offices" ToRole="Deps" />
+        </EntityType>
+        <EntityType Name="Positions">
+          <Key>
+            <PropertyRef Name="PositionID" />
+          </Key>
+          <Property Name="PositionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PositionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Salary" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Emps" Relationship="Self.FK_Employees_PosID" FromRole="Positions" ToRole="Emps" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Vacations">
+          <Key>
+            <PropertyRef Name="VacationID" />
+          </Key>
+          <Property Name="VacationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BeginDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EmpID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Emps" Relationship="Self.FK_Vacations_EmpID" FromRole="Vacations" ToRole="Emps" />
+        </EntityType>
+        <Association Name="FK_Deps_OfID">
+          <End Role="Offices" Type="Self.Offices" Multiplicity="1" />
+          <End Role="Deps" Type="Self.Deps" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Offices">
+              <PropertyRef Name="OfficeID" />
+            </Principal>
+            <Dependent Role="Deps">
+              <PropertyRef Name="OfID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employees_DepID">
+          <End Role="Deps" Type="Self.Deps" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Emps" Type="Self.Emps" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Deps">
+              <PropertyRef Name="DepartamentID" />
+            </Principal>
+            <Dependent Role="Emps">
+              <PropertyRef Name="DepID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employees_PosID">
+          <End Role="Positions" Type="Self.Positions" Multiplicity="1" />
+          <End Role="Emps" Type="Self.Emps" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Positions">
+              <PropertyRef Name="PositionID" />
+            </Principal>
+            <Dependent Role="Emps">
+              <PropertyRef Name="PosID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vacations_EmpID">
+          <End Role="Emps" Type="Self.Emps" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Vacations" Type="Self.Vacations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Emps">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Vacations">
+              <PropertyRef Name="EmpID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StaffDataBaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Deps" EntityType="Self.Deps" />
+          <EntitySet Name="Emps" EntityType="Self.Emps" />
+          <EntitySet Name="Offices" EntityType="Self.Offices" />
+          <EntitySet Name="Positions" EntityType="Self.Positions" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Vacations" EntityType="Self.Vacations" />
+          <AssociationSet Name="FK_Deps_OfID" Association="Self.FK_Deps_OfID">
+            <End Role="Offices" EntitySet="Offices" />
+            <End Role="Deps" EntitySet="Deps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employees_DepID" Association="Self.FK_Employees_DepID">
+            <End Role="Deps" EntitySet="Deps" />
+            <End Role="Emps" EntitySet="Emps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employees_PosID" Association="Self.FK_Employees_PosID">
+            <End Role="Positions" EntitySet="Positions" />
+            <End Role="Emps" EntitySet="Emps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vacations_EmpID" Association="Self.FK_Vacations_EmpID">
+            <End Role="Emps" EntitySet="Emps" />
+            <End Role="Vacations" EntitySet="Vacations" />
+          </AssociationSet>
+          <FunctionImport Name="DeleteEmployee">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteVacation">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="InsertEmployee">
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Surname" Mode="In" Type="String" />
+            <Parameter Name="Patronymic" Mode="In" Type="String" />
+            <Parameter Name="Position" Mode="In" Type="Int32" />
+            <Parameter Name="DepID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="InsertVacation">
+            <Parameter Name="begin" Mode="In" Type="String" />
+            <Parameter Name="end" Mode="In" Type="String" />
+            <Parameter Name="empID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(StaffDataBaseModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(StaffDataBaseModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <FunctionImport Name="UpdateEmployee">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Surname" Mode="In" Type="String" />
+            <Parameter Name="Patronymic" Mode="In" Type="String" />
+            <Parameter Name="PosID" Mode="In" Type="Int32" />
+            <Parameter Name="DepID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateVacation">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="beginDate" Mode="In" Type="String" />
+            <Parameter Name="endDate" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StaffDataBaseModelStoreContainer" CdmEntityContainer="StaffDataBaseEntities">
+          <EntitySetMapping Name="Deps">
+            <EntityTypeMapping TypeName="StaffDataBaseModel.Deps">
+              <MappingFragment StoreEntitySet="Deps">
+                <ScalarProperty Name="DepartamentID" ColumnName="DepartamentID" />
+                <ScalarProperty Name="DepartamentName" ColumnName="DepartamentName" />
+                <ScalarProperty Name="EmployeesCount" ColumnName="EmployeesCount" />
+                <ScalarProperty Name="OfID" ColumnName="OfID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Emps">
+            <EntityTypeMapping TypeName="StaffDataBaseModel.Emps">
+              <MappingFragment StoreEntitySet="Emps">
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="PosID" ColumnName="PosID" />
+                <ScalarProperty Name="VacationsCount" ColumnName="VacationsCount" />
+                <ScalarProperty Name="DepID" ColumnName="DepID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Offices">
+            <EntityTypeMapping TypeName="StaffDataBaseModel.Offices">
+              <MappingFragment StoreEntitySet="Offices">
+                <ScalarProperty Name="OfficeID" ColumnName="OfficeID" />
+                <ScalarProperty Name="OfficeName" ColumnName="OfficeName" />
+                <ScalarProperty Name="DepartamentsCount" ColumnName="DepartamentsCount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Positions">
+            <EntityTypeMapping TypeName="StaffDataBaseModel.Positions">
+              <MappingFragment StoreEntitySet="Positions">
+                <ScalarProperty Name="PositionID" ColumnName="PositionID" />
+                <ScalarProperty Name="PositionName" ColumnName="PositionName" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="StaffDataBaseModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vacations">
+            <EntityTypeMapping TypeName="StaffDataBaseModel.Vacations">
+              <MappingFragment StoreEntitySet="Vacations">
+                <ScalarProperty Name="VacationID" ColumnName="VacationID" />
+                <ScalarProperty Name="BeginDate" ColumnName="BeginDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="DeleteEmployee" FunctionName="StaffDataBaseModel.Store.DeleteEmployee" />
+          <FunctionImportMapping FunctionImportName="DeleteVacation" FunctionName="StaffDataBaseModel.Store.DeleteVacation" />
+          <FunctionImportMapping FunctionImportName="InsertEmployee" FunctionName="StaffDataBaseModel.Store.InsertEmployee" />
+          <FunctionImportMapping FunctionImportName="InsertVacation" FunctionName="StaffDataBaseModel.Store.InsertVacation" />
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="StaffDataBaseModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="StaffDataBaseModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="StaffDataBaseModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="StaffDataBaseModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StaffDataBaseModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="StaffDataBaseModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StaffDataBaseModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="StaffDataBaseModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="StaffDataBaseModel.Store.sp_upgraddiagrams" />
+          <FunctionImportMapping FunctionImportName="UpdateEmployee" FunctionName="StaffDataBaseModel.Store.UpdateEmployee" />
+          <FunctionImportMapping FunctionImportName="UpdateVacation" FunctionName="StaffDataBaseModel.Store.UpdateVacation" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

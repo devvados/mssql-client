@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Web_Application.Models.Vacations>
+
+@{
+    ViewBag.Title = "Список отпусков";
+}
+
+<div>
+    <br />
+    <br/>
+    <div style="display:block;float:left;">
+        <h2 >
+            Отпуски
+        </h2>
+    </div>
+    <br />
+    <br />
+</div>
+<table class="table">
+    <tr>
+        <th>
+            Имя
+        </th>
+        <th>
+            Фамилия
+        </th>
+        <th>
+            Отчество
+        </th>
+        <th>
+            Начало
+        </th>
+        <th>
+            Конец
+        </th>
+        <th>
+            Действия
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Emps.Surname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Emps.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Emps.Patronymic)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BeginDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndDate)
+        </td>
+        <td>
+            @Html.ActionLink("Редактировать", "Edit", new { id=item.VacationID }) |
+            @Html.ActionLink("Подробнее", "Details", new { id=item.VacationID }) |
+            @Html.ActionLink("Удалить", "Delete", new { id=item.VacationID })
+        </td>
+    </tr>
+}
+
+</table>

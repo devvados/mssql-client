@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Главная страница";
+}
+
+<div class="jumbotron">
+    <h1>ФТС России</h1>
+    <h2>Веб-представление базы данных сотрудников ФТС России.</h2>
+    <br/>
+    <p><a><input type="button" class="btn btn-primary btn-lg" value="К списку сотрудников" onclick="location.href='@Url.Action("Index", "Emps")'" /></a></p>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <h2>О проекте</h2>
+        <p>
+            Весь проект включает в себя десктопное, веб и консольное приложения.</br>Данное приложение предназначено для доступа к базе данных сотрудников ФТС России, для удобного отображения данных и ее редактирования в браузере.
+        </p>
+        @*<p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>*@
+    </div>
+    <div class="col-md-4">
+        <h2>Помощь</h2>
+        <p>Для пользователя доступны две табоицы: "Сотрудники" и "Отпуски".</br>Каждому элементу таблицы доступны действия: "Редактировать", "Подробнее" и "Удалить" для оперирования данными.</br>При удалении сотрудника будет отображаться полная информация, включая отпуски, для подтверждения действия пользователя.</p>
+        @*<p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>*@ 
+    </div>
+    <div class="col-md-4">
+        <h2>Цель</h2>
+        <p>Говорят, если сдать полностью проект, можно получить автомат по предмету "Базы данных".</p>
+        @*<p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>*@
+    </div>
+</div>

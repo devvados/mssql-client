@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desktop Application", "SQL Connection\Desktop Application.csproj", "{F7459792-34B9-4AC7-87EE-B5575C75F033}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web Application", "Web Application\Web Application.csproj", "{5F6FFA83-46DA-4FA3-8E51-91FD94C55FF4}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Console Application", "Console Application\Console Application.pyproj", "{F09C2CA7-325B-445F-BFAF-D5A2ADFB695A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F7459792-34B9-4AC7-87EE-B5575C75F033}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7459792-34B9-4AC7-87EE-B5575C75F033}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7459792-34B9-4AC7-87EE-B5575C75F033}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7459792-34B9-4AC7-87EE-B5575C75F033}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F6FFA83-46DA-4FA3-8E51-91FD94C55FF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F6FFA83-46DA-4FA3-8E51-91FD94C55FF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F6FFA83-46DA-4FA3-8E51-91FD94C55FF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F6FFA83-46DA-4FA3-8E51-91FD94C55FF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F09C2CA7-325B-445F-BFAF-D5A2ADFB695A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F09C2CA7-325B-445F-BFAF-D5A2ADFB695A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

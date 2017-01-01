@@ -1,0 +1,33 @@
+﻿<mahapps:MetroWindow x:Class="SQL_Connection.HelpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SQL_Connection"
+        xmlns:mahapps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        GlowBrush="{DynamicResource AccentColorBrush}"
+        mc:Ignorable="d" ResizeMode="NoResize"
+        Title="Помощь" Height="300" Width="400">
+    <Grid>
+        <TabControl Margin="15">
+            <TabItem Header="Действия">
+                <RichTextBox BorderThickness="0" IsReadOnly="True">
+                    <FlowDocument>
+                        <Paragraph>Приложение допускает добавление/редактирование/удаление данных сотрудников и их отпусков из БД в случае, если пользователь авторизовался в режиме "Адмнистратор".</Paragraph>
+                        <Paragraph>В режиме "Гость" возможен только просмотр данных. Для смены режима пользователя в левом верхнем углу нажмите "Авторизация".</Paragraph>
+                        <Paragraph>Действия осуществляются посредством выбора соответствующего пункта меню в таблицах "Сотрудники" или "Отпуски".</Paragraph>
+                    </FlowDocument>
+                </RichTextBox>
+            </TabItem>
+            <TabItem Header="Отображение">
+                <RichTextBox BorderThickness="0" IsReadOnly="True">
+                    <FlowDocument>
+                        <Paragraph>Данные отображаются в виде таблиц в соответствующих вкладках. Для структурированного отображения данных необходимо дважды кликнуть по строке в таблице и в последующих.</Paragraph>
+                        <Paragraph>С помощью выпадающего списка в поле "Отображение" осуществляется фильтр сотрудников по профессии.</Paragraph>
+                        <Paragraph>Кнопка "Показать все" отобразит всех сотрудников, упорядоченных по присвоенному номеру. На данный список также можно воздействовать фильтром по профессии.</Paragraph>
+                    </FlowDocument>
+                </RichTextBox>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</mahapps:MetroWindow>

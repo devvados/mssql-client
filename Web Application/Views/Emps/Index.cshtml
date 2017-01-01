@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Web_Application.Models.Emps>
+
+@{
+    ViewBag.Title = "Список сотрудников";
+}
+
+<div>
+    <br/>
+    <div style="display:block;float:left;">
+        <h2>
+            Сотрудники
+        </h2>
+    </div>
+
+    <div style="display:block;float:right;">
+        <a><input type="button" class="btn btn-primary btn-lg" value="Добавить сотрудника" onclick="location.href='@Url.Action("Create", "Emps")'" /></a>
+    </div>
+    <br/>
+</div>
+
+@*<p>
+    <a><input type="button" class="btn btn-primary btn-lg" value="Добавить сотрудника" onclick="location.href='@Url.Action("Create", "Emps")'" /></a>
+</p>*@
+<table class="table">
+    <tr>
+        <th>
+            Фамилия
+        </th>
+        <th>
+            Имя
+        </th>
+        <th>
+            Отчество
+        </th>
+        <th>
+            Отпусков
+        </th>
+        <th>
+            Отдел
+        </th>
+        <th>
+            Управление
+        </th>
+        <th>
+            Должность
+        </th>
+        <th>
+            Действия
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Surname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Patronymic)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VacationsCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Deps.DepartamentName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Deps.Offices.OfficeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Positions.PositionName)
+        </td>
+        <td>
+            @Html.ActionLink("Подробнее", "Details", new { id=item.EmployeeID }) |
+            @Html.ActionLink("Редактировать", "Edit", new { id=item.EmployeeID }) |
+            @Html.ActionLink("Удалить", "Delete", new { id=item.EmployeeID }) |
+            @Html.ActionLink("Отпуск", "CreateVacation", new { id=item.EmployeeID })
+        </td>
+    </tr>
+}
+
+</table>
